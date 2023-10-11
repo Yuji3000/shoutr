@@ -1,9 +1,11 @@
 module ShoutHelper
-  # def avatar(user)
-  #   email_digest = Digest::MD5.hexdigest user.email
-  #   gravatar_url = "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email)}"
-  #   image_tag gravatar_url
-  # end
+  def shout_form_for(content_type)
+    form_for Shout.new do |form|
+      form.hidden_field(:content_type, value: content_type) +
+      form.fields_for(:content) { |content_form| yield(content_form) }
+      form.submit("Shout!") 
+    end 
+  end
 
   def like_button(shout)
     if current_user.liked?(shout)
